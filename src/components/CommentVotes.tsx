@@ -1,6 +1,6 @@
 'use client'
 import { CommentVote, VoteType } from '@prisma/client'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import useCustomToast from '@/hooks/use-custom-toast'
 import { usePrevious } from '@mantine/hooks'
 import { Button } from './ui/Button'

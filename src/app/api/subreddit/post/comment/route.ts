@@ -1,12 +1,9 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
-import type { CachedPayload } from '@/types/redis'
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { redis } from "@/lib/redis";
 import { CommentVaildator } from "@/lib/validators/comment";
 
-const CACHE_AFTER_UPVOTES = 1
 
 export async function POST(req: Request) {
   try {
