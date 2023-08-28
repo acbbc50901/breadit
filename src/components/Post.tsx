@@ -53,7 +53,7 @@ const Post: React.FC<Props> = ({subredditName, post, commentAmt, votesAmt, curre
       </div>
       <div className=' bg-gray-50 z-20 text-sm p-4 sm:px-6'>
         <a href={`/r/${subredditName}/post/${post.id}`} className=' w-fit flex items-center gap-2'>
-            <MessageSquare className=' h-4 w-4'/> {commentAmt} comments
+            <MessageSquare className=' h-4 w-4'/> {commentAmt} 評論
         </a>
       </div>
     </div>
