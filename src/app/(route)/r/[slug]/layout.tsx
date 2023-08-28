@@ -76,7 +76,7 @@ const Layout = async ({
                 </dd>
               </div>
               <div className=" flex justify-between gap-x-4 py-3">
-                <dt className=" text-gray-500"> 數量 </dt>
+                <dt className=" text-gray-500"> 社群人數 </dt>
                   <dd className=" text-gray-700">
                     <div className=" text-gray-900">{numberCount}</div>
                   </dd>
