@@ -4,7 +4,6 @@ import { PrismaAdapter} from '@next-auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
 import GithubProvider from 'next-auth/providers/github'
 import { nanoid } from 'nanoid'
-import { User } from '@prisma/client'
 
 export const authOptions : NextAuthOptions = {
   adapter: PrismaAdapter(db),

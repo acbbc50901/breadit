@@ -25,7 +25,7 @@ const SignIn = () => {
         <h1 className=" text-2xl font-semibold tracking-tight">歡迎回來</h1>
         <p className=" text-sm max-w-md mx-auto">繼續即表示您正在設置帳戶並同意我們的用戶協議隱私政策</p>
         {/* { sign in form} */}
-        <UserAuthForm className=""/>
+        <UserAuthForm/>
         <p className=" px-8 text-center text-sm text-zinc-700">
           新用戶? {' '} 
           <span>
