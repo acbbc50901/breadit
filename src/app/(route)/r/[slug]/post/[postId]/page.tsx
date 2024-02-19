@@ -63,7 +63,7 @@ const PostPage = async ({params} : {params: {postId: string}}) => {
           <h1 className=' text-xl font-semibold py-2 leading-6 text-gray-900'>
             {post?.title}
           </h1>
-          {/* <EditorOutput content={post?.content ?? cachedPost.content}/> */}
+          <EditorOutput content={post?.content }/>
           <Suspense fallback={<Loader2 className=' h-3 w-3 animate-spin text-zinc-500'/>}>
             {/* @ts-expect-error server component */}
             <CommentsSection postId={post?.id}/>
