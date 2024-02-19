@@ -15,22 +15,29 @@ export const dynamic = 'force-dynamic'
 export const fetchCache = 'force-no-store'
 
 const PostPage = async ({params} : {params: {postId: string}}) => {
-  const cachedPost = (await redis.hgetall(`post:${params.postId}`)) as CachedPayload
-
-  let post: (Post & {votes: Vote[]; author: User}) | null = null
+  // const cachedPost = (await redis.hgetall(`post:${params.postId}`)) as CachedPayload
+  let post: (Post & {votes: Vote[]; author: User}) | null = await db.post.findFirst({
+        where: {
+          id: params.postId,
+        },
+        include: {
+          votes: true,
+          author: true,
+        }
+      }) || null
   
-  if (!cachedPost) {
-    post = await db.post.findFirst({
-      where: {
-        id: params.postId,
-      },
-      include: {
-        votes: true,
-        author: true,
-      }
-    })
-  }
-  if (!post && !cachedPost) return notFound();
+  // if (!cachedPost) {
+  //   post = await db.post.findFirst({
+  //     where: {
+  //       id: params.postId,
+  //     },
+  //     include: {
+  //       votes: true,
+  //       author: true,
+  //     }
+  //   })
+  // }
+  if (!post) return console.log('錯誤ㄋ');
   const getData = async () => {
     return await db.post.findUnique({
       where: {
@@ -46,20 +53,20 @@ const PostPage = async ({params} : {params: {postId: string}}) => {
       <div className=' flex w-full flex-col sm:flex-row items-center sm:items-start justify-between'>
         <Suspense fallback={<PostVoteShell/>}>
           {/* @ts-expect-error server component */}
-          <PostVoteSverver postId={post?.id ?? cachedPost.id} getData={getData}/>
+          <PostVoteSverver postId={post?.id} getData={getData}/>
         </Suspense>
         <div className=' sm:w-0 w-full flex-1 bg-white p-4 rounded-sm'>
           <p className=' max-h-40 mt-1 truncate text-xs text-gray-500'>
-            發布人 u/{post?.author.username ?? cachedPost.authorUsername}{' '}
-            {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
+            發布人 u/{post?.author.username }{' '}
+            {formatTimeToNow(new Date(post?.createdAt))}
           </p>
           <h1 className=' text-xl font-semibold py-2 leading-6 text-gray-900'>
-            {post?.title ?? cachedPost.title}
+            {post?.title}
           </h1>
-          <EditorOutput content={post?.content ?? cachedPost.content}/>
+          {/* <EditorOutput content={post?.content ?? cachedPost.content}/> */}
           <Suspense fallback={<Loader2 className=' h-3 w-3 animate-spin text-zinc-500'/>}>
             {/* @ts-expect-error server component */}
-            <CommentsSection postId={post?.id ?? cachedPost.id}/>
+            <CommentsSection postId={post?.id}/>
           </Suspense>
         </div>
       </div>
@@ -80,5 +87,21 @@ function PostVoteShell() {
     </div>
   </div>
 }
+
+// const PostPage = async({params} : {params: {postId: string}}) => {
+//   const post = await db.post.findFirst({
+//     where: {
+//       id: params.postId,
+//     },
+//     include: {
+//       votes: true,
+//       author: true,
+//     }
+//   })
+
+//   return (
+//     <div>{post?.authorId}</div>
+//   )
+// }
 
 export default PostPage
